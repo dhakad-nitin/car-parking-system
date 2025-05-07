@@ -1,5 +1,5 @@
 // src/carparking/carparking.controller.ts
-import { Controller, Post, Get, Patch, Param, Body, Query, UsePipes, ValidationPipe, Delete, BadRequestException } from '@nestjs/common';
+import { Controller, Post, Get, Patch, Param, Body, Query, UsePipes, ValidationPipe, Delete, BadRequestException, NotFoundException } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiQuery, ApiBody } from '@nestjs/swagger';
 import { CarParkingService } from './carparking.service';
 import { CreateLotDto } from './dtos/create-lot.dto';
@@ -198,6 +198,9 @@ export class CarParkingController {
   @Get(':id/slot') // Endpoint to get slot by regNo
   slotByRegNo(@Param('id') id: string, @Query('regNo') regNo: string) {
     const slot = this.service.getSlotByRegNo(id, regNo);
+    if (slot === null) {
+      throw new NotFoundException(`Car ${regNo} not found in lot ${id}`);
+    }
     return { 
       message: `Car with registration number ${regNo} is parked at slot ${slot} in parking lot ${id}`,
       lotId: id,

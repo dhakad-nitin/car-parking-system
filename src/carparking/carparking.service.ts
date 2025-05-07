@@ -53,13 +53,9 @@ export class CarParkingService {
   }
 
   // Method to get slot number by registration number in a parking lot
-  getSlotByRegNo(id: string, regNo: string): number {
+  getSlotByRegNo(id: string, regNo: string): number | null {
     const lot = this.getLot(id); // Retrieve the parking lot
-    const slot = lot.getSlotByRegNo(regNo); // Get slot for regNo
-    if (slot === null) {
-      throw new NotFoundException(`Car ${regNo} not found in lot ${id}`);
-    }
-    return slot; // Return the slot number
+    return lot.getSlotByRegNo(regNo); // Return slot or null if not found
   }
 
   // Method to get color-based car counts for a specific parking lot
