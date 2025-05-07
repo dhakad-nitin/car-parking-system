@@ -1,5 +1,5 @@
 // src/carparking/entities/parking-lot.entity.ts
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { Car } from './car.entity';
 
 export class ParkingLot {
@@ -90,10 +90,13 @@ export class ParkingLot {
 
   // Method to get registration numbers of cars by color
   getRegNosByColor(color: string): string[] {
-    const slots = this.colorMap.get(color.toLowerCase()) || new Set(); // Get slots for color or empty set
+    const slots = this.colorMap.get(color.toLowerCase());
+    if (!slots || slots.size === 0) {
+      throw new NotFoundException(`No cars found with color ${color}`);
+    }
     return Array.from(slots)
-      .map(slot => this.occupiedSlots.get(slot)?.regNo) // Map slots to regNos
-      .filter(Boolean) as string[]; // Filter out undefined and cast to string[]
+      .map(slot => this.occupiedSlots.get(slot)?.regNo)
+      .filter(Boolean) as string[];
   }
 
   // Method to get slot numbers by car color
