@@ -62,6 +62,29 @@ export class CarParkingService {
     return slot; // Return the slot number
   }
 
+  // Method to get color-based car counts for a specific parking lot
+  getColorCounts(id: string): Record<string, number> {
+    const lot = this.getLot(id); // Retrieve the parking lot
+    const colorCounts: Record<string, number> = {};
+    const occupied = lot.getOccupied();
+    
+    // Count cars by color in the specified lot
+    for (const car of occupied) {
+      const color = car.color.toLowerCase();
+      colorCounts[color] = (colorCounts[color] || 0) + 1;
+    }
+    
+    return colorCounts;
+  }
+
+  // Method to delete a parking lot by ID
+  deleteLot(id: string): void {
+    if (!this.lots.has(id)) {
+      throw new NotFoundException(`Lot ${id} not found`);
+    }
+    this.lots.delete(id);
+  }
+
   // Helper method to retrieve a parking lot by ID
   private getLot(id: string): ParkingLot {
     const lot = this.lots.get(id); // Attempt to get the lot

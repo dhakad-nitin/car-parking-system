@@ -1,5 +1,5 @@
 // src/carparking/carparking.controller.ts
-import { Controller, Post, Get, Patch, Param, Body, Query, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Controller, Post, Get, Patch, Param, Body, Query, UsePipes, ValidationPipe, Delete } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiQuery } from '@nestjs/swagger';
 import { CarParkingService } from './carparking.service';
 import { CreateLotDto } from './dtos/create-lot.dto';
@@ -18,7 +18,11 @@ export class CarParkingController {
   @UsePipes(new ValidationPipe()) // Validate incoming data
   create(@Body() dto: CreateLotDto) {
     this.service.createLot(dto.id, dto.size); // Create the lot
-    return { message: `Lot ${dto.id} created with ${dto.size} slots` }; // Success response
+    return { 
+      message: `Parking lot - ${dto.id} has been successfully created with ${dto.size} slots`,
+      lotId: dto.id,
+      totalSlots: dto.size
+    }; // Success response
   }
 
   @ApiOperation({ summary: 'Expand an existing parking lot' })
@@ -28,7 +32,12 @@ export class CarParkingController {
   @Patch(':id/expand') // Endpoint to expand a parking lot
   @UsePipes(new ValidationPipe())
   expand(@Param('id') id: string, @Body('size') size: number) {
-    return { totalSlots: this.service.expandLot(id, size) }; // Return new total slots
+    const totalSlots = this.service.expandLot(id, size);
+    return { 
+      message: `Parking lot - ${id} has been expanded by ${size} slots`,
+      lotId: id,
+      totalSlots: totalSlots
+    }; // Return new total slots
   }
 
   @ApiOperation({ summary: 'Park a car in the parking lot' })
@@ -39,7 +48,14 @@ export class CarParkingController {
   @Post(':id/park') // Endpoint to park a car
   @UsePipes(new ValidationPipe())
   park(@Param('id') id: string, @Body() dto: ParkDto) {
-    return { slot: this.service.park(id, dto.regNo, dto.color) }; // Return allocated slot
+    const slot = this.service.park(id, dto.regNo, dto.color);
+    return { 
+      message: `Car with registration number ${dto.regNo} has been successfully parked at slot ${slot}`,
+      lotId: id,
+      slot: slot,
+      regNo: dto.regNo,
+      color: dto.color
+    }; // Return allocated slot
   }
 
   @ApiOperation({ summary: 'Free a parking slot' })
@@ -50,7 +66,11 @@ export class CarParkingController {
   @UsePipes(new ValidationPipe())
   free(@Param('id') id: string, @Body() dto: FreeSlotDto) {
     this.service.free(id, dto.slot); // Free the slot
-    return { message: `Slot ${dto.slot} freed` }; // Success response
+    return { 
+      message: `Slot ${dto.slot} in parking lot ${id} has been successfully freed`,
+      lotId: id,
+      slot: dto.slot
+    }; // Success response
   }
 
   @ApiOperation({ summary: 'Get parking lot status' })
@@ -59,7 +79,13 @@ export class CarParkingController {
   @ApiResponse({ status: 404, description: 'Parking lot not found' })
   @Get(':id/status') // Endpoint to get occupied slots
   status(@Param('id') id: string) {
-    return { occupied: this.service.getStatus(id) }; // Return occupied slots
+    const occupied = this.service.getStatus(id);
+    return { 
+      message: `Current status of parking lot ${id}`,
+      lotId: id,
+      totalOccupied: occupied.length,
+      occupied: occupied
+    }; // Return occupied slots
   }
 
   @ApiOperation({ summary: 'Get registration numbers by car color' })
@@ -69,7 +95,13 @@ export class CarParkingController {
   @ApiResponse({ status: 404, description: 'Parking lot not found or no cars found with the specified color' })
   @Get(':id/regnos') // Endpoint to get regNos by color
   regNosByColor(@Param('id') id: string, @Query('color') color: string) {
-    return { regNos: this.service.getRegNosByColor(id, color) }; // Return regNos
+    const regNos = this.service.getRegNosByColor(id, color);
+    return { 
+      message: `Found ${regNos.length} car(s) with color ${color} in parking lot ${id}`,
+      lotId: id,
+      color: color,
+      regNos: regNos
+    }; // Return regNos
   }
 
   @ApiOperation({ summary: 'Get parking slots by car color' })
@@ -79,7 +111,13 @@ export class CarParkingController {
   @ApiResponse({ status: 404, description: 'Parking lot not found' })
   @Get(':id/slots') // Endpoint to get slots by color
   slotsByColor(@Param('id') id: string, @Query('color') color: string) {
-    return { slots: this.service.getSlotsByColor(id, color) }; // Return slots
+    const slots = this.service.getSlotsByColor(id, color);
+    return { 
+      message: `Found ${slots.length} slot(s) occupied by cars with color ${color} in parking lot ${id}`,
+      lotId: id,
+      color: color,
+      slots: slots
+    }; // Return slots
   }
 
   @ApiOperation({ summary: 'Get parking slot by registration number' })
@@ -89,7 +127,54 @@ export class CarParkingController {
   @ApiResponse({ status: 404, description: 'Car not found in parking lot' })
   @Get(':id/slot') // Endpoint to get slot by regNo
   slotByRegNo(@Param('id') id: string, @Query('regNo') regNo: string) {
-    return { slot: this.service.getSlotByRegNo(id, regNo) }; // Return slot
+    const slot = this.service.getSlotByRegNo(id, regNo);
+    return { 
+      message: `Car with registration number ${regNo} is parked at slot ${slot} in parking lot ${id}`,
+      lotId: id,
+      regNo: regNo,
+      slot: slot
+    }; // Return slot
+  }
+
+  @ApiOperation({ summary: 'Get count of cars by color for a specific parking lot' })
+  @ApiParam({ name: 'id', description: 'Parking lot ID' })
+  @ApiResponse({ 
+    status: 200, 
+    description: 'Returns counts of cars by color for the specified parking lot',
+    schema: {
+      type: 'object',
+      additionalProperties: {
+        type: 'number'
+      },
+      example: {
+        "white": 5,
+        "red": 2,
+        "blue": 3
+      }
+    }
+  })
+  @ApiResponse({ status: 404, description: 'Parking lot not found' })
+  @Get(':id/count_by_color') // Endpoint to get color-based counts for a specific lot
+  getColorCounts(@Param('id') id: string) {
+    const counts = this.service.getColorCounts(id);
+    return {
+      message: `Color-based car counts for parking lot ${id}`,
+      lotId: id,
+      counts: counts
+    };
+  }
+
+  @ApiOperation({ summary: 'Delete a parking lot by ID' })
+  @ApiParam({ name: 'id', description: 'Parking lot ID' })
+  @ApiResponse({ status: 200, description: 'Parking lot deleted successfully' })
+  @ApiResponse({ status: 404, description: 'Parking lot not found' })
+  @Delete(':id')
+  deleteLot(@Param('id') id: string) {
+    this.service.deleteLot(id);
+    return {
+      message: `Parking lot ${id} has been deleted successfully`,
+      lotId: id
+    };
   }
 }
 
