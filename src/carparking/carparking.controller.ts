@@ -1,6 +1,6 @@
 // src/carparking/carparking.controller.ts
-import { Controller, Post, Get, Patch, Param, Body, Query, UsePipes, ValidationPipe, Delete } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiQuery } from '@nestjs/swagger';
+import { Controller, Post, Get, Patch, Param, Body, Query, UsePipes, ValidationPipe, Delete, BadRequestException } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiQuery, ApiBody } from '@nestjs/swagger';
 import { CarParkingService } from './carparking.service';
 import { CreateLotDto } from './dtos/create-lot.dto';
 import { ParkDto } from './dtos/park.dto';
@@ -14,6 +14,23 @@ export class CarParkingController {
   @ApiOperation({ summary: 'Create a new parking lot' })
   @ApiResponse({ status: 201, description: 'Parking lot created successfully' })
   @ApiResponse({ status: 400, description: 'Invalid input data' })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        id: { type: 'string', example: 'lot1', description: 'Unique parking lot ID' },
+        size: { type: 'integer', example: 4, description: 'Total number of slots' }
+      },
+      required: ['id', 'size']
+    },
+    examples: {
+      default: {
+        summary: 'Create lot example',
+        value: { id: 'lot1', size: 4 }
+      }
+    },
+    description: 'Parking lot creation payload'
+  })
   @Post('create') // Endpoint to create a parking lot
   @UsePipes(new ValidationPipe()) // Validate incoming data
   create(@Body() dto: CreateLotDto) {
@@ -29,15 +46,31 @@ export class CarParkingController {
   @ApiParam({ name: 'id', description: 'Parking lot ID' })
   @ApiResponse({ status: 200, description: 'Parking lot expanded successfully' })
   @ApiResponse({ status: 404, description: 'Parking lot not found' })
+  @ApiResponse({ status: 400, description: 'Invalid expansion size' })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        size: { type: 'integer', example: 2, description: 'Number of slots to add' }
+      },
+      required: ['size']
+    },
+    description: 'Number of slots to add to the parking lot'
+  })
   @Patch(':id/expand') // Endpoint to expand a parking lot
   @UsePipes(new ValidationPipe())
   expand(@Param('id') id: string, @Body('size') size: number) {
+    if (!size || size <= 0) {
+      throw new BadRequestException('Expansion size must be a positive number');
+    }
     const totalSlots = this.service.expandLot(id, size);
     return { 
       message: `Parking lot - ${id} has been expanded by ${size} slots`,
       lotId: id,
-      totalSlots: totalSlots
-    }; // Return new total slots
+      previousSize: totalSlots - size,
+      newSize: totalSlots,
+      addedSlots: size
+    }; // Return detailed expansion information
   }
 
   @ApiOperation({ summary: 'Park a car in the parking lot' })
@@ -45,6 +78,27 @@ export class CarParkingController {
   @ApiResponse({ status: 201, description: 'Car parked successfully' })
   @ApiResponse({ status: 404, description: 'Parking lot not found' })
   @ApiResponse({ status: 400, description: 'No available slots' })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        regNo: { type: 'string', example: 'MP07SJ6212', description: 'Car registration number' },
+        color: { type: 'string', example: 'Blue', description: 'Car color' }
+      },
+      required: ['regNo', 'color']
+    },
+    examples: {
+      blueCar: {
+        summary: 'Park blue car',
+        value: { regNo: 'MP07SJ6212', color: 'Blue' }
+      },
+      redCar: {
+        summary: 'Park red car',
+        value: { regNo: 'KA01CD5678', color: 'Red' }
+      }
+    },
+    description: 'Car parking payload'
+  })
   @Post(':id/park') // Endpoint to park a car
   @UsePipes(new ValidationPipe())
   park(@Param('id') id: string, @Body() dto: ParkDto) {
@@ -62,6 +116,22 @@ export class CarParkingController {
   @ApiParam({ name: 'id', description: 'Parking lot ID' })
   @ApiResponse({ status: 200, description: 'Slot freed successfully' })
   @ApiResponse({ status: 404, description: 'Parking lot or slot not found' })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        slot: { type: 'integer', example: 1, description: 'Slot number to free' }
+      },
+      required: ['slot']
+    },
+    examples: {
+      default: {
+        summary: 'Free slot example',
+        value: { slot: 1 }
+      }
+    },
+    description: 'Slot freeing payload'
+  })
   @Post(':id/free') // Endpoint to free a slot
   @UsePipes(new ValidationPipe())
   free(@Param('id') id: string, @Body() dto: FreeSlotDto) {
