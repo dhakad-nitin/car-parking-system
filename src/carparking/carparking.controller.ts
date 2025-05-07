@@ -55,3 +55,5 @@ export class CarParkingController {
     return { slot: this.service.getSlotByRegNo(id, regNo) }; // Return slot
   }
 }
+
+export default CarParkingController;

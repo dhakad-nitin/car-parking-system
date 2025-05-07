@@ -71,3 +71,5 @@ export class CarParkingService {
     return lot; // Return the lot if found
   }
 }
+
+export default CarParkingService;
