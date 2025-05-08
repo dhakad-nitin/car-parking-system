@@ -1,98 +1,165 @@
 <p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
+  <img src="https://img.icons8.com/ios-filled/100/000000/car-park.png" width="120" alt="Car Parking System Logo" />
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+<h1 align="center">Car Parking System API</h1>
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
+<p align="center">
+  A scalable backend API for managing car parking lots, meticulously crafted with NestJS.
+  <br />
+  <a href="https://car-parking-system.up.railway.app/" target="_blank"><strong>View Live Demo Landing Page »</strong></a>
+  <br />
+  <br />
+  <a href="https://car-parking-system.up.railway.app/api-docs" target="_blank">View API Documentation</a>
+  ·
+  <a href="https://github.com/dhakad-nitin/car-parking-system/issues" target="_blank">Report Bug</a>
+  ·
+  <a href="https://github.com/dhakad-nitin/car-parking-system/issues" target="_blank">Request Feature</a>
 </p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+## About The Project
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+This project provides a comprehensive backend API for managing car parking facilities. It allows for operations such as parking and unparking vehicles, querying vehicle information, and managing parking lot capacity. The system is designed to be scalable and efficient, leveraging the power of the NestJS framework.
 
-## Project setup
+**Live Application URL (Landing Page):** [https://car-parking-system.up.railway.app/](https://car-parking-system.up.railway.app/)
 
-```bash
-$ npm install
-```
+The landing page provides a brief overview and links to the API documentation. The core of this project is the backend API itself.
 
-## Compile and run the project
+### Key Features:
+
+*   **Create and manage multiple parking lots:** Easily set up and configure new parking areas.
+*   **Park and unpark cars:** Track vehicle entry and exit with registration details.
+*   **Query cars by color and registration number:** Quickly find vehicles based on specific criteria.
+*   **Expand parking lot capacity:** Dynamically adjust the size of parking lots as needed.
+*   **Real-time parking lot status monitoring:** Get up-to-date information on parking availability.
+
+### Built With
+
+*   [NestJS](https://nestjs.com/)
+*   [TypeScript](https://www.typescriptlang.org/)
+*   [Node.js](https://nodejs.org/)
+*   [Docker](https://www.docker.com/)
+
+## Getting Started
+
+To get a local copy up and running follow these simple steps.
+
+### Prerequisites
+
+*   npm
+    ```sh
+    npm install npm@latest -g
+    ```
+*   Node.js (v18 or higher recommended, as per Dockerfile)
+*   Docker (optional, for containerized deployment)
+
+### Installation
+
+1.  Clone the repo
+    ```sh
+    git clone https://github.com/dhakad-nitin/car-parking-system.git
+    ```
+2.  Install NPM packages
+    ```sh
+    npm install
+    ```
+
+## Usage
+
+### Running the application
 
 ```bash
 # development
-$ npm run start
+npm run start
 
-# watch mode
-$ npm run start:dev
+# watch mode (for development with auto-reloading)
+npm run start:dev
 
 # production mode
-$ npm run start:prod
+npm run start:prod
 ```
 
-## Run tests
+The application will be available at `http://localhost:3000`. The API documentation (Swagger UI) can typically be accessed at `http://localhost:3000/api-docs` (or your configured path) when running locally.
+
+### Running Tests
+
+This project uses [Jest](https://jestjs.io/) for unit and end-to-end (e2e) testing.
 
 ```bash
 # unit tests
-$ npm run test
+npm run test
 
 # e2e tests
-$ npm run test:e2e
+npm run test:e2e
 
 # test coverage
-$ npm run test:cov
+npm run test:cov
 ```
+
+## API Endpoints
+
+The API allows for various operations related to parking lot management. Detailed API documentation is available at:
+[https://car-parking-system.up.railway.app/api-docs](https://car-parking-system.up.railway.app/api-docs)
+
+Key operations include:
+*   Creating parking lots
+*   Parking a car
+*   Unparking a car
+*   Getting car information by registration number
+*   Getting car information by color
+*   Checking parking lot status
+
+### API Endpoint Details
+
+Below is a summary of the available API endpoints:
+
+| Method | Endpoint                               | Description                                            |
+|--------|----------------------------------------|--------------------------------------------------------|
+| POST   | `/carparking/create`                   | Create a new parking lot                               |
+| PATCH  | `/carparking/{id}/expand`              | Expand an existing parking lot                         |
+| POST   | `/carparking/{id}/park`                | Park a car in the parking lot                          |
+| POST   | `/carparking/{id}/free`                | Free a parking slot                                    |
+| GET    | `/carparking/{id}/status`              | Get parking lot status                                 |
+| GET    | `/carparking/{id}/regnos`              | Get registration numbers by car color                  |
+| GET    | `/carparking/{id}/slots`               | Get parking slots by car color                         |
+| GET    | `/carparking/{id}/slot`                | Get parking slot by registration number                |
+| GET    | `/carparking/{id}/count_by_color`      | Get count of cars by color for a specific parking lot  |
+| DELETE | `/carparking/{id}`                     | Delete a parking lot by ID                             |
+
+*(Note: `{id}` in the endpoints should be replaced with the actual parking lot ID.)*
+
+## Docker
+
+This project includes a `Dockerfile` for easy containerization.
+
+### Build the Docker image:
+
+```bash
+docker build -t car-parking-system .
+```
+
+### Run the Docker container:
+
+```bash
+docker run -p 3000:3000 car-parking-system
+```
+This will expose the application on port 3000 of your host machine.
 
 ## Deployment
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+This application is deployed on Railway and is accessible at [https://car-parking-system.up.railway.app/](https://car-parking-system.up.railway.app/). The API documentation is available at [https://car-parking-system.up.railway.app/api-docs](https://car-parking-system.up.railway.app/api-docs).
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+The `Dockerfile` in the repository is configured to build and run the application. Platforms like Railway can use this `Dockerfile` to deploy the application.
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
+## Contact
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+Nitin Dhakad
+*   Portfolio: [https://nitindhakad.vercel.app/](https://nitindhakad.vercel.app/)
+*   Email: dnitin762@gmail.com
+*   Project Link: [https://github.com/dhakad-nitin/car-parking-system](https://github.com/dhakad-nitin/car-parking-system)
 
-## Resources
+## Acknowledgements
 
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+*   [NestJS Documentation](https://docs.nestjs.com)
+*   [Railway](https://railway.app/)
+*   [Icon8 for the logo](https://icons8.com)
