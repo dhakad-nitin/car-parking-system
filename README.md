@@ -7,11 +7,9 @@
 <p align="center">
   A scalable backend API for managing car parking lots, meticulously crafted with NestJS.
   <br />
-  <a href="https://car-parking-system.up.railway.app/" target="_blank"><strong>View Live Demo Landing Page »</strong></a>
+  <a href="https://car-parking-system.up.railway.app/" target="_blank"><strong>View Live »</strong></a>
   <br />
   <br />
-  <a href="https://car-parking-system.up.railway.app/api-docs" target="_blank">View API Documentation</a>
-  ·
   <a href="https://github.com/dhakad-nitin/car-parking-system/issues" target="_blank">Report Bug</a>
   ·
   <a href="https://github.com/dhakad-nitin/car-parking-system/issues" target="_blank">Request Feature</a>
@@ -141,8 +139,7 @@ This will expose the application on port 3000 of your host machine.
 
 ## Deployment
 
-This application is deployed on Railway and is accessible at [https://car-parking-system.up.railway.app/](https://car-parking-system.up.railway.app/). The API documentation is available at [https://car-parking-system.up.railway.app/api-docs](https://car-parking-system.up.railway.app/api-docs).
-
+This application is deployed on Railway and is accessible at [https://car-parking-system.up.railway.app/](https://car-parking-system.up.railway.app/). 
 The `Dockerfile` in the repository is configured to build and run the application. Platforms like Railway can use this `Dockerfile` to deploy the application.
 
 ## Contact
