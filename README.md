@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://img.icons8.com/ios-filled/100/000000/car-park.png" width="120" alt="Car Parking System Logo" />
+  <img src="https://github.com/user-attachments/assets/c6f395b4-22d8-477c-a0de-e2afd6fff8ea" width="120" alt="Car Parking System Logo" />
 </p>
 
 <h1 align="center">Car Parking System API</h1>
@@ -83,17 +83,11 @@ The application will be available at `http://localhost:3000`. The API documentat
 
 ### Running Tests
 
-This project uses [Jest](https://jestjs.io/) for unit and end-to-end (e2e) testing.
+This project uses [Jest](https://jestjs.io/) for unit testing.
 
 ```bash
 # unit tests
 npm run test
-
-# e2e tests
-npm run test:e2e
-
-# test coverage
-npm run test:cov
 ```
 
 ## API Endpoints
