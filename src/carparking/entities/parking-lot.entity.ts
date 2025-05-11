@@ -10,6 +10,7 @@ export class ParkingLot {
   private regMap: Map<string, number>; // Map of registration numbers to slot numbers
 
   // Constructor to initialize the parking lot with a given size
+  //object creation happens here
   constructor(size: number) {
     if (size <= 0) {
       throw new BadRequestException('Parking lot size must be positive');
@@ -81,7 +82,7 @@ export class ParkingLot {
   }
 
   getOccupied(): { slot: number; regNo: string; color: string }[] {
-    return Array.from(this.occupiedSlots.entries()).map(([slot, car]) => ({
+    return Array.from(this.occupiedSlots.entries()).map(([slot, car]) => ({ //Creates an array of objects and 
       slot, // Slot number
       regNo: car.regNo, // Registration number of the car
       color: car.color, // Color of the car
@@ -90,13 +91,14 @@ export class ParkingLot {
 
   // Method to get registration numbers of cars by color
   getRegNosByColor(color: string): string[] {
-    const slots = this.colorMap.get(color.toLowerCase());
+    const slots = this.colorMap.get(color.toLowerCase()); //Gets the set of slot numbers for the given color
     if (!slots || slots.size === 0) {
       throw new NotFoundException(`No cars found with color ${color}`);
     }
     return Array.from(slots)
-      .map(slot => this.occupiedSlots.get(slot)?.regNo)
-      .filter(Boolean) as string[];
+      .map(slot => this.occupiedSlots.get(slot)?.regNo) //For each slot number, gets the car from occupiedSlots
+      //Uses optional chaining (?.) to safely access the regNo property of the car object
+      .filter(Boolean) as string[]; //Filters out any undefined values and casts the result to an array of strings
   }
 
   // Method to get slot numbers by car color
@@ -107,5 +109,5 @@ export class ParkingLot {
   // Method to get slot number by registration number
   getSlotByRegNo(regNo: string): number | null {
     return this.regMap.get(regNo.toLowerCase()) || null; // Return slot or null if not found
-  }
+  } //drirectly uses the regMap to get the slot number for the given registration number
 }

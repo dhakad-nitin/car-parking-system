@@ -5,7 +5,8 @@ import { Car } from './entities/car.entity';
 
 @Injectable()
 export class CarParkingService {
-  private lots: Map<string, ParkingLot> = new Map(); // Map to store parking lots by ID
+  private lots: Map<string, ParkingLot> = new Map(); // Map to store parking lots by ID 
+  // example of a map <lot1, parkinglot>
 
   // Method to create a new parking lot
   createLot(id: string, size: number): void {
@@ -61,13 +62,13 @@ export class CarParkingService {
   // Method to get color-based car counts for a specific parking lot
   getColorCounts(id: string): Record<string, number> {
     const lot = this.getLot(id); // Retrieve the parking lot
-    const colorCounts: Record<string, number> = {};
+    const colorCounts: Record<string, number> = {}; // Initialize an empty object to store color counts
     const occupied = lot.getOccupied();
     
     // Count cars by color in the specified lot
-    for (const car of occupied) {
+    for (const car of occupied) { // Loop through each car in the occupied slots array
       const color = car.color.toLowerCase();
-      colorCounts[color] = (colorCounts[color] || 0) + 1;
+      colorCounts[color] = (colorCounts[color] || 0) + 1; // If the color doesn't exist in colorCounts, initialize it with 0 and add 1
     }
     
     return colorCounts;

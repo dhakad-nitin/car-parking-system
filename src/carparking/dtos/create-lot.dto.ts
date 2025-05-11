@@ -9,4 +9,4 @@ export class CreateLotDto {
   @IsInt()
   @Min(1)
   size: number; // Number of slots in the parking lot
-}
+} //DTO means Data Transfer Object,
